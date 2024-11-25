@@ -75,13 +75,13 @@ places_to_display = {key: places[key] for key in places if key != pusat}
 def index():
     return render_template('fp.html', places=places_to_display)
 
+# Count using Simulated Annealing
 @app.route('/get_route', methods=['POST'])
 def get_route():
     # Mendapatkan jumlah titik yang dipilih pengguna
     num_places = int(request.form['num_places'])
     selected_places = [request.form[f'place_{i}'] for i in range(1, num_places + 1)]
 
-    # Memastikan Bandara Juanda selalu menjadi titik awal dan akhir
     selected_places.insert(0, pusat)
     selected_places.append(pusat)
 
@@ -96,9 +96,26 @@ def get_route():
     map_center = places[pusat]
     m = folium.Map(location=map_center, zoom_start=13)
 
-    # Menambahkan marker untuk setiap lokasi
-    for place, coord in places.items():
-        folium.Marker(coord, popup=place).add_to(m)
+    # Menambahkan marker dengan nama di atasnya untuk setiap lokasi dalam rute optimal
+    for place in optimal_route:
+        folium.Marker(
+            places[place],
+            icon=folium.DivIcon(html=f"""
+                <div style="
+                    background-color: yellow; 
+                    padding: 0px 3px;          
+                    display: inline;          
+                    font-size: 8pt; 
+                    font-weight: bold; 
+                    color: black; 
+                    border-radius: 3px;      
+                    ">
+                    {place}
+                </div>
+            """),
+        ).add_to(m)
+        folium.Marker(places[place], popup=place).add_to(m)
+
 
     # Menambahkan polyline untuk rute
     folium.PolyLine(route_coords, color="blue", weight=2.5, opacity=1).add_to(m)
@@ -121,6 +138,7 @@ def get_route():
         </body>
         </html>
     """, route_str=route_str, map_html=map_html)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
