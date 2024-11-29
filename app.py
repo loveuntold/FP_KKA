@@ -154,23 +154,13 @@ def get_route():
     # Konversi objek Folium map menjadi HTML string
     map_html = m._repr_html_()
 
-    return render_template_string("""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Optimal Delivery Route</title>
-        </head>
-        <body>
-            <h2>Optimal Route for Delivery</h2>
-            <p>Optimal route: {{ route_str }}</p>
-            <p>Total distance: {{ best_distance }} meters</p>
-            {{ map_html|safe }}
-        </body>
-        </html>
-    """, route_str=" -> ".join(best_route), best_distance=round(best_distance, 2), map_html=map_html)
-
+    # Render the template with the required data
+    return render_template(
+        "optimal_route.html",
+        route_str=" -> ".join(best_route),
+        best_distance=round(best_distance, 2),
+        map_html=map_html
+    )
 
 if __name__ == '__main__':
     app.run(debug=True)

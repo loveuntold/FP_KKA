@@ -11,6 +11,26 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        /* .sidebar {
+            width: 350px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        } */
+
+        .map-container {
+            flex-grow: 1;
+            padding: 20px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+        }
     </style>
 
     <script>
@@ -31,7 +51,7 @@
                 select.setAttribute('name', 'place_' + i);
                 select.classList.add('mt-1', 'block', 'w-full', 'px-3', 'py-2', 'border', 'border-gray-300', 'bg-white', 'rounded-md', 'shadow-sm', 'focus:outline-none', 'focus:ring-indigo-500', 'focus:border-indigo-500', 'sm:text-sm');
 
-                // Menambahkan pilihan lokasi, kecuali 'Gateway Pusat'
+                // Add location options, except 'Gateway Pusat'
                 {% for place in places %}
                     {% if place != 'Gateway Pusat' %}
                         var option = document.createElement('option');
@@ -47,25 +67,35 @@
         }
     </script>
 </head>
-<body class="bg-green-50 p-8">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-        <h1 class="text-2xl font-bold mb-4">Find Optimal Delivery Route</h1>
-        
-        <form action="/get_route" method="POST" target="map">
-            <label for="num_places" class="block text-sm font-medium text-gray-700">Enter Number of Locations:</label>
-            <input type="number" id="num_places" name="num_places" min="2" max="10" placeholder="Insert Here"
-                   class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                   oninput="updateDropdown()">
-
-            <div id="places_container" class="mt-4">
-                <!-- Dropdowns for locations will be injected here -->
-            </div>
-
-            <button type="submit" class="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Find Route</button>
-        </form>
-
-        <h2 class="text-xl font-semibold mt-8">Map with Optimal Route:</h2>
-        <iframe name="map" width="100%" height="500px" class="mt-4 border-2 border-gray-300"></iframe>
+<body class="bg-green-50 min-h-screen flex flex-col">
+    <div class="flex flex-1">
+        <!-- Sidebar for Inputs -->
+        <div class="w-[350px] bg-white p-6 shadow-md rounded-md flex flex-col">
+            <!-- Image styled using Tailwind CSS -->
+            <img src="{{ url_for('static', filename='/img/logo.png') }}" alt="logo" class="w-24 h-24 mx-auto mb-4 object-contain">
+            <h1 class="text-2xl font-bold mb-4">Find Optimal Delivery Route</h1>
+            
+            <form action="/get_route" method="POST" target="map">
+                <label for="num_places" class="block text-sm font-medium text-gray-700">Enter Number of Locations:</label>
+                <input type="number" id="num_places" name="num_places" min="2" max="10" placeholder="Insert Here"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                       oninput="updateDropdown()">
+    
+                <div id="places_container" class="mt-4">
+                    <!-- Dropdowns for locations will be injected here -->
+                </div>
+    
+                <button type="submit" class="mt-6 px-4 py-2 bg-indigo-600 text-white rounded-md shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Find Route</button>
+            </form>
+        </div>
+    
+        <!-- Map Section -->
+        <div class="flex-grow bg-white p-4">
+            <!-- <h2 class="text-xl font-semibold mb-4">Map with Optimal Route:</h2> -->
+            <iframe name="map" class="rounded-lg shadow-md w-full h-full"></iframe>
+        </div>
     </div>
+    
+    
 </body>
 </html>
