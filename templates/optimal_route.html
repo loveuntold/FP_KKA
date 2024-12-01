@@ -10,17 +10,65 @@
         body {
             font-family: 'Poppins', sans-serif;
         }
+
+        .route-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px; /* Add space between each route element */
+            flex-wrap: wrap; /* Allow wrapping for smaller screens */
+            padding: 10px; /* Add padding inside the container */
+        }
+
+        .route-node {
+            width: 20px; /* Increased size for better visuals */
+            height: 20px;
+            background-color: #4F46E5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0; /* Add vertical margin */
+            position: relative;
+        }
+
+        .route-line {
+            height: 2px;
+            background-color: #4F46E5;
+            width: 60px;
+            margin: 0; /* Reset margin */
+        }
+
+        .route-node span {
+            position: absolute;
+            top: 40px; /* Adjust label position for better visibility */
+            left: -20px;
+            font-size: 12px;
+            font-weight: bold;
+            color: black;
+            text-align: center;
+            width: 60px;
+        }
     </style>
 </head>
-<body class="bg-white min-h-screen flex flex-col items-center justify-center">
-    <div class="text-center">
+<body class="min-h-screen flex items-center justify-center bg-gray-100">
+    <div class="text-center w-auto bg-white p-6 shadow-md rounded-md mx-auto">
         <h2 class="text-3xl font-semibold text-blue-600 mb-4">Optimal Route for Delivery</h2>
-        <p class="text-lg text-gray-800"><strong>Optimal route:</strong> {{ route_str }}</p>
         <p class="text-lg text-gray-800 mb-6"><strong>Total distance:</strong> {{ best_distance }} meters</p>
-        <div class="w-full max-2xl">
+        <div class="route-container">
+            <!-- Generate the route visually -->
+            {% for place in best_route %}
+                <div class="route-node">
+                    <span>{{ place }}</span>
+                </div>
+                {% if not loop.last %}
+                    <div class="route-line"></div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <div class="w-full max-2xl mt-20">
             {{ map_html|safe }}
         </div>
     </div>
 </body>
 </html>
-

@@ -157,7 +157,7 @@ def get_route():
     # Render the template with the required data
     return render_template(
         "optimal_route.html",
-        route_str=" -> ".join(best_route),
+        best_route=best_route,
         best_distance=round(best_distance, 2),
         map_html=map_html
     )
