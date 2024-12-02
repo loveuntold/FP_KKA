@@ -23,7 +23,7 @@
         .route-node {
             width: 20px; /* Increased size for better visuals */
             height: 20px;
-            background-color: #4F46E5;
+            background-color: rgb(98, 28, 28);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -34,7 +34,7 @@
 
         .route-line {
             height: 2px;
-            background-color: #4F46E5;
+            background-color: rgb(98, 28, 28);
             width: 60px;
             margin: 0; /* Reset margin */
         }
@@ -51,9 +51,10 @@
         }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center bg-gray-100">
+<body class="min-h-screen flex items-center justify-center bg-red-500">
     <div class="text-center w-auto bg-white p-6 shadow-md rounded-md mx-auto">
-        <h2 class="text-3xl font-semibold text-blue-600 mb-4">Optimal Route for Delivery</h2>
+        <img src="/static/logo.png" class="w-[150px] h-[150px] mx-auto">
+        <h2 class="text-3xl font-semibold text-red-800 mb-4">Optimal Route for Delivery</h2>
         <p class="text-lg text-gray-800 mb-6"><strong>Total distance:</strong> {{ best_distance }} meters</p>
         <div class="route-container">
             <!-- Generate the route visually -->
