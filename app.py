@@ -17,7 +17,7 @@ def load_places_from_csv(filepath):
             latitude = float(row['latitude'])
             longitude = float(row['longitude'])
             # Validasi jika lokasi dalam batas Surabaya
-            if -7.45 <= latitude <= -7.20 and 112.55 <= longitude <= 112.80:
+            if -7.4672 <= latitude <= -7.1297 and 112.6107 <= longitude <= 112.8296:
                 places[name] = (latitude, longitude)
     return places
 
@@ -47,7 +47,8 @@ places_to_display = {key: places[key] for key in places if key != pusat}
 
 @app.route('/')
 def index():
-    filtered_places = {key: value for key, value in places.items() if -7.4672 <= value[0] <= -7.1297 and 112.6107 <= value[1] <= 112.8296}
+    # Filter dan urutkan tempat berdasarkan nama (alfabet)
+    filtered_places = {key: value for key, value in sorted(places.items()) if -7.4672 <= value[0] <= -7.1297 and 112.6107 <= value[1] <= 112.8296}
     return render_template('fp.html', places=filtered_places)
 
 # Menghitung rute menggunakan Simulated Annealing dan OSRM
