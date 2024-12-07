@@ -118,14 +118,24 @@ def get_route():
     # Membuat peta interaktif menggunakan Folium
     m = folium.Map(location=places[pusat], zoom_start=13)
 
-    # Menambahkan marker untuk setiap lokasi
     for place in best_route:
         folium.Marker(
             places[place],
+            icon=folium.DivIcon(html=f"""
+                <div style="
+                    background-color: yellow; 
+                    padding: 0px 3px; 
+                    display: inline;         
+                    font-size: 8pt; 
+                    font-weight: bold; 
+                    color: black; 
+                    border-radius: 3px;">{place}</div>
+            """),
             popup=place,
         ).add_to(m)
+        folium.Marker(places[place], popup=place).add_to(m)
 
-    # Menambahkan garis rute optimal
+
     folium.PolyLine([(lat, lon) for lon, lat in route_geometry], color="blue", weight=2.5, opacity=1).add_to(m)
 
     # Konversi objek peta ke HTML
